@@ -1,5 +1,6 @@
 from datetime import date
 from time import timezone
+import uuid
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.forms import ValidationError
@@ -38,12 +39,19 @@ class Conference(models.Model):
     def __str__(self):
         return  f"{self.name} + {self.theme} ({self.start_date} to {self.end_date})"
 
-def generate_submission_id(self):
-        return "SUB" + str(self.submission_id).zfill(8) # Generates a unique ID like SUB00000001
+def generate_submission_id():
+    return "SUB" + uuid.uuid4().hex[:8].upper()  # e.g., SUB1A2B3C4D
 
 class Submission(models.Model):
-    submission_id = models.AutoField(primary_key = True, unique = True, editable = False)
-    user = models.ForeignKey('UserApp.User', on_delete = models.CASCADE, related_name = 'submissions')
+    submission_id = models.CharField(
+        primary_key=True,
+        max_length=11,
+        unique=True,
+        editable=False
+    )
+    user = models.ForeignKey("UserApp.User",
+                           on_delete=models.CASCADE,
+                           related_name="submissions")
     conference = models.ForeignKey(Conference, on_delete = models.CASCADE, related_name = 'submissions')
     title = models.CharField(max_length = 100)
     abstract = models.TextField()
@@ -82,7 +90,7 @@ class Submission(models.Model):
         
     def save(self, *args, **kwargs):
         if not self.submission_id:
-            new_submission_id = generate_submission_id(self)
+            new_submission_id = generate_submission_id()
             while Submission.objects.filter(submission_id=new_submission_id).exists():
                 new_submission_id = generate_submission_id(self)
             self.submission_id = new_submission_id
