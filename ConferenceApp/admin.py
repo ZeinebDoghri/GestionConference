@@ -56,6 +56,15 @@ class AdminPersonalized(admin.ModelAdmin):
         return "RAS"
     duration.short_description = 'Duration (days)' #Change the column header name
 
+
+@admin.action(description='Mark selected submissions as payed')
+def mark_as_payed(modeladmin, request, queryset):
+    queryset.update(payed=True)
+
+@admin.action(description='Mark selected submissions as accepted')
+def accept_submission(modeladmin, request, queryset):
+    queryset.update(status='accepted')
+
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('submission_id', 'title', 'user', 'conference', 'status', 'submission_date', 'payed', 'short_abstract') #Add columns to the list view
@@ -82,4 +91,11 @@ class SubmissionAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('submission_id', 'submission_date') #Make submission_id and submission_date read-only
     date_hierarchy = 'submission_date' #Add a date-based drilldown navigation by submission_date
-    
+    actions = [mark_as_payed, accept_submission] #Add the custom action to the admin interface
+
+
+
+
+
+
+

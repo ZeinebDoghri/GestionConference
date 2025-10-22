@@ -4,6 +4,17 @@ from .models import User, organizingCommittee
 #admin.site.register(User)
 #admin.site.register(organizingCommittee)
 
+class OrginizingCommitteeInline(admin.TabularInline):
+    model = organizingCommittee # Model to be displayed inline
+    extra = 1 # Number of extra forms to display
+    readonly_fields = ('date_joined',) # Make fields read-only
+    fieldsets = (
+        ("Committee Information", {
+            'fields': ('user', 'conference', 'committee_role', 'date_joined')
+        }),
+    )
+
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'username', 'first_name', 'last_name', 'affiliation', 'email', 'role', 'nationality', 'last_login', 'date_joined') # Add columns to the list view
@@ -22,6 +33,7 @@ class UserAdmin(admin.ModelAdmin):
         })
     )
     readonly_fields = ('user_id', 'last_login', 'date_joined') # Make user_id, last_login, and date_joined read-only
+    inlines = [OrginizingCommitteeInline] # Add the inline to the User admin page
     
 
 @admin.register(organizingCommittee)

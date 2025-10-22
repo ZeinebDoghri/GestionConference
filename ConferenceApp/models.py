@@ -99,7 +99,3 @@ class Submission(models.Model):
     
     
 
-
-    
-
-
