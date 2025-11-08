@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+{% if messages %}
+  {% for message in messages %}
+    <p style="color: red; font-weight: bold;">
+      {{ message }}
+    </p>
+  {% endfor %}
+{% endif %}
+
+<h2>My Submissions</h2>
+
+{% if user.is_authenticated %}
+  <p>Logged in as: <strong>{{ user.username }}</strong></p>
+
+  <a href="{% url 'add_submission' %}">Add New Submission</a>
+  <br><br>
+  <table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Author</th>
+      <th>Conference</th>
+      <th>Submission Date</th>
+      <th>Payment</th>
+      <th>Actions</th>
+    </tr>
+
+    {% for s in list_submissions %}
+        <tr>
+            <td>{{ s.title }}</td>
+            <td>{{ s.status }}</td>
+            <td>{{ s.user.username }}</td>
+            <td>{{ s.conference.name }}</td>
+            <td>{{ s.submission_date }}</td>
+            <td>
+            {% if s.payed == True %}
+                Paid
+            {% else %}
+                Not Paid
+            {% endif %}
+            </td>
+            <td><a href="{% url 'submission_detail' s.pk %}">Details</a> <br> <a href="{% url 'update_submission' s.pk %}">Edit</a> </td>
+            
+        </tr>
+        {% empty %}
+        <tr>
+        <td colspan="7">No submissions found.</td>
+        </tr>
+    {% endfor %}
+
+  </table>
+
+{% else %}
+  <p> You must be logged in to view your submissions.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{%if view.object.pk %}
+<h2>Edit Conference</h2>
+{% else %}
+<h2>Create Conference</h2>
+{% endif %}
+<form method="post">
+    {% csrf_token %}  <!-- Include CSRF token for security -->
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>

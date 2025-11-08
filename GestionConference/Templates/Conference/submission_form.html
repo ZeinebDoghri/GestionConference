@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if object %}
+    <h2>Update Submission</h2>
+{% else %}
+    <h2>New Submission</h2>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if object %}
+        {# Update → uniquement les champs modifiables #}
+        <p>{{ form.title.label_tag }}<br>{{ form.title }}</p>
+        <p>{{ form.abstract.label_tag }}<br>{{ form.abstract }}</p>
+        <p>{{ form.keywords.label_tag }}<br>{{ form.keywords }}</p>
+        <p>{{ form.paper.label_tag }}<br>{{ form.paper }}</p>
+    {% else %}
+        {# Add → afficher tous les champs du formulaire #}
+        {{ form.as_p }}
+    {% endif %}
+
+    <button type="submit">
+        {% if object %}Update{% else %}Submit{% endif %}
+    </button>
+</form>
+
+<a href="{% url 'list_submissions' %}">Cancel</a>
+
+{% endblock %}
+
+
+
+
+

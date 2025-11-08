@@ -78,15 +78,21 @@ class Submission(models.Model):
             raise ValidationError("You can only provide up to 10 keywords.")
         
     def clean(self):
-        if self.conference.start_date < timezone.now().date():
-            raise ValidationError("Submission date cannot be after conference start date.")
+        #if self.conference.start_date < timezone.now().date():
+          #  raise ValidationError("Submission date cannot be after conference start date.")
         # Limiter le nombre de soumissions par jour
-        submissions_today = Submission.objects.filter(
-            user=self.user,
-            submission_date=timezone.now().date()
-        ).count()
-        if submissions_today >= 3:
-            raise ValidationError("You can only submit 3 papers per day.")
+        # Vérifie si user est défini
+        if self.user_id:
+            submissions_today = Submission.objects.filter(
+                user=self.user,
+                submission_date=timezone.now().date()
+            ).count()
+            if submissions_today >= 3:
+                raise ValidationError("You can only submit 3 papers per day.")
+            
+    def __str__(self):
+        return f"{self.title} ({self.user.username})" if self.user_id else self.title
+
         
     def save(self, *args, **kwargs):
         if not self.submission_id:
@@ -96,6 +102,5 @@ class Submission(models.Model):
             self.submission_id = new_submission_id
         super().save(*args, **kwargs)
 
-    
-    
 
+    

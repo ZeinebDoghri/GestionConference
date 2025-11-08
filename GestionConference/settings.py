@@ -125,3 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'UserApp.User'
+LOGIN_REDIRECT_URL = 'list_conferences'  # Redirect to conference list after login
+LOGOUT_REDIRECT_URL = 'login'  # Redirect to login page after logout
+
+LOGIN_URL = 'login'  # URL to redirect for login_required decorator

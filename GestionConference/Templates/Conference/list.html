@@ -1,5 +1,7 @@
-
+{% extends 'base.html' %}
+{% block content %}
 <h2>Conference List</h2>
+<button><a href="{% url 'conference-create' %}">Create New Conference</a></button>
 <table border =1>
     <tr>
         <td>Title</td>
@@ -9,12 +11,16 @@
         <td>Actions</td>
     </tr>
 {% for c in list_conferences %}
-    <tr>
+    <br>
         <td>{{ c.name }}</td>
         <td>{{ c.start_date }}</td>
         <td>{{ c.end_date }}</td>
         <td>{{ c.location }}</td>
-        <td><a href="{% url 'conference_detail' c.pk %}">View Details</a></td>
+        <td><a href="{% url 'conference_detail' c.pk %}">Details</a> <br> 
+            {% if user.is_authenticated and user.role == "commitee" %}
+            <a href="{% url 'conference-update' c.pk %}">Edit</a> <br> <a href="{% url 'conference-delete' c.pk %}">Delete</a></td>
+            {% endif %}
     </tr>
 {% endfor %}
 </table>
+{% endblock %}

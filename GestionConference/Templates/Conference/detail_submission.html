@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Submission Details</h2>
+<p><strong>Title:</strong> {{ submission.title }}</p>
+<p><strong>Abstract:</strong> {{ submission.abstract }}</p>
+<p><strong>Keywords:</strong> {{ submission.keywords }}</p>
+<p><strong>Conference:</strong> {{ submission.conference.name }}</p>
+<p><strong>Author:</strong> {{ submission.user.username }}</p>
+<p><strong>Status:</strong> {{ submission.status }}</p>
+
+{% if submission.paper %}
+<p><a href="{{ submission.paper.url }}" download>Download PDF</a></p>
+{% endif %}
+
+<a href="{% url 'list_submissions' %}">Back</a>
+{% endblock %}
