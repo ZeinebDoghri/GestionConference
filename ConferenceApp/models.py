@@ -51,8 +51,8 @@ class Submission(models.Model):
     )
     user = models.ForeignKey("UserApp.User",
                            on_delete=models.CASCADE,
-                           related_name="submissions")
-    conference = models.ForeignKey(Conference, on_delete = models.CASCADE, related_name = 'submissions')
+                           related_name="submissions") # the role of related_name is to access all submissions of a user
+    conference = models.ForeignKey(Conference, on_delete = models.CASCADE, related_name = 'submissions') # the role of related_name is to access all submissions of a conference
     title = models.CharField(max_length = 100)
     abstract = models.TextField()
     keywords = models.TextField()

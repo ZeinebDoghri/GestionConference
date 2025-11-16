@@ -7,8 +7,8 @@ admin.site.index_title = "Welcome to Conference Management Admin Portal"
 #admin.site.register(Conference) Register the Conference model to make it accessible in the admin interface
 #admin.site.register(Submission)
 
-# Tabular inline
-class SubmissionInline(admin.TabularInline):
+# Tabular inline 
+class SubmissionInline(admin.TabularInline):#modify in the form of a table
     model = Submission # Model to be displayed inline
     extra = 1 # Number of extra forms to display
     readonly_fields = ('submission_id',) # Make fields read-only
@@ -19,7 +19,7 @@ class SubmissionInline(admin.TabularInline):
     )
 
 #Tabular Stacked inline
-#class SubmissionInline(admin.StackedInline):
+#class SubmissionInline(admin.StackedInline):#modify in the form of a line
 #    model = Submission # Model to be displayed inline
 #    extra = 1 # Number of extra forms to display
 #    readonly_fields = ('submission_id', 'submission_date') # Make fields read-only
@@ -28,7 +28,6 @@ class SubmissionInline(admin.TabularInline):
 #            'fields': ('submission_id', 'user', 'title', 'abstract', 'status', 'payed')
 #        }),
 #    )
-
 
 
 

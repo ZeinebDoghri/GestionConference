@@ -1,6 +1,8 @@
 from django.urls import path
 #from . import views
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     #path('liste/', views.all_conferences, name='list_conferences'),
@@ -14,3 +16,5 @@ urlpatterns = [
     path('add_submission/', AddSubmissionView.as_view(), name='add_submission'),
     path('update_submission/<str:pk>/', UpdateSubmissionView.as_view(), name='update_submission'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
