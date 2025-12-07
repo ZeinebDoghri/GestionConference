@@ -22,4 +22,5 @@ urlpatterns = [
     path('conferences/', include('ConferenceApp.urls')),
     path('users/', include('UserApp.urls')),
     path('api/', include('SessionAppApi.urls')),
+    path('security/', include('SecurityConfigApp.urls')),
 ]
